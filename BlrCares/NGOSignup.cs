@@ -72,7 +72,7 @@ namespace BengaluruCares
                     }
                 }
                 MessageBox.Show("NGO Registered with unique Biometric ID!");
-                new Dashboard().Show();
+                new NgoDashboard().Show();
                 this.Hide();
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }

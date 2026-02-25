@@ -143,7 +143,7 @@ namespace BlrCares
         }
         private void OpenDashboard()
         {
-            Dashboard dash = new Dashboard();
+            NgoDashboard dash = new NgoDashboard();
             dash.Show();
             this.Hide();
         }
