@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions; 
 using System.Windows.Forms;
+using BlrCares; // Needed to access the Dashboard form
 
 namespace BengaluruCares
 {
@@ -11,7 +12,7 @@ namespace BengaluruCares
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, EventArgs e)
+        private void btnSignup_Click(object sender, EventArgs e)
         {
             try
             {
@@ -29,7 +30,6 @@ namespace BengaluruCares
                 {
                     throw new ArgumentNullException("All fields are required.");
                 }
-
 
                 string userPattern = @"^[a-zA-Z0-9]+$";
                 if (!Regex.IsMatch(username, userPattern))
@@ -62,7 +62,7 @@ namespace BengaluruCares
                     throw new FormatException("Password must be 8+ chars, with 1 digit and 1 special char.");
                 }
 
-                MessageBox.Show("Validation Successful! Logging in...", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Validation Successful! Account Created.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Dashboard dash = new Dashboard();
                 dash.Show();
@@ -84,6 +84,15 @@ namespace BengaluruCares
                 lblError.Text = "Unexpected Error: " + ex.Message;
                 lblError.Visible = true;
             }
+        }
+
+        // --- NEW FEATURE: Redirect to Login Page ---
+        private void lblGotoLogin_Click(object sender, EventArgs e)
+        {
+            Login loginPage = new Login();
+            loginPage.Show();
+            
+            this.Hide(); // Hides the Signup form
         }
 
         private void lblClose_Click(object sender, EventArgs e)
