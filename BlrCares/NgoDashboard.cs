@@ -1,4 +1,5 @@
 ﻿using BengaluruCares;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -22,24 +23,34 @@ namespace BlrCares
         public NgoDashboard()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized; //
 
-            // Force Full Screen
-            this.WindowState = FormWindowState.Maximized;
-
-            // Fix Designer Layouts dynamically
-            FixSidebarLayout();
-            SetupRecentActivityFeed();
-
-            picProfile.SizeMode = PictureBoxSizeMode.StretchImage;
-            SetupRoundedProfile();
-            SetupButtonHoverEffects();
-
-            InitializeDynamicPages();
+            LoadNgoName(); // Fetch name from DB
+            FixSidebarLayout(); //
+            SetupRecentActivityFeed(); //
+            InitializeDynamicPages(); //
         }
 
-        // =========================================================================
-        // LAYOUT & STYLING FIXES
-        // =========================================================================
+        private void LoadNgoName()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(AppSecrets.ConnString)) //
+                {
+                    con.Open();
+                    string query = "SELECT NGOName FROM NGOs WHERE Email = @email"; //
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@email", Session.UserEmail); //
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        lblNgoName.Text = result.ToString(); // Update sidebar name
+                    }
+                }
+            }
+            catch (Exception ex) { MessageBox.Show("Error loading profile: " + ex.Message); }
+        }
 
         private void FixSidebarLayout()
         {
@@ -198,6 +209,36 @@ namespace BlrCares
             dgv.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
         }
 
+        private void LoadNgoEvents()
+        {
+            dgvEvents.Rows.Clear();
+            using (SqlConnection con = new SqlConnection(AppSecrets.ConnString))
+            {
+                con.Open();
+                // Filters events posted by this specific NGO
+                string query = "SELECT Status, Title, EventDate FROM Events WHERE NGO_Name = @ngo";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@ngo", lblNgoName.Text);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    dgvEvents.Rows.Add(
+                        reader["Status"].ToString(),
+                        reader["Title"].ToString(),
+                        Convert.ToDateTime(reader["EventDate"]).ToShortDateString()
+                    );
+                }
+            }
+        }
+
+        // Update the Navigation Button
+        private void btnManageEvents_Click(object sender, EventArgs e)
+        {
+            LoadNgoEvents();
+            ShowPage(pnlManageEvents);
+        }
+
         private void BuildSettingsPage()
         {
             pnlSettings = CreateBasePanel("Organization Settings");
@@ -222,10 +263,22 @@ namespace BlrCares
             };
 
             Button btnSave = new Button { Text = "Save Changes", Location = new Point(40, 230), Width = 220, Height = 55, BackColor = ngoGreen, ForeColor = Color.White, Font = new Font("Segoe UI", 12, FontStyle.Bold), FlatStyle = FlatStyle.Flat };
+            // Inside BuildSettingsPage() in NgoDashboard.cs
             btnSave.Click += (s, e) =>
             {
+                using (SqlConnection con = new SqlConnection(AppSecrets.ConnString))
+                {
+                    con.Open();
+                    string query = "UPDATE NGOs SET NGOName = @name WHERE Email = @email";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@name", txtName.Text);
+                    cmd.Parameters.AddWithValue("@email", Session.UserEmail);
+                    cmd.ExecuteNonQuery();
+                }
+
                 lblNgoName.Text = txtName.Text;
-                MessageBox.Show("Profile Updated Successfully!", "Settings Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Session.UserName = txtName.Text;
+                MessageBox.Show("Profile Updated Successfully!", "Settings Saved");
                 ShowPage(null);
             };
 
@@ -250,18 +303,24 @@ namespace BlrCares
 
             Button btnPublish = new Button { Text = "Publish Event", Location = new Point(50, 530), Width = 250, Height = 60, BackColor = ngoGreen, ForeColor = Color.White, Font = new Font("Segoe UI", 14, FontStyle.Bold), FlatStyle = FlatStyle.Flat };
 
+            // Inside BuildPostOppPage() in NgoDashboard.cs
             btnPublish.Click += (s, e) => {
                 if (string.IsNullOrWhiteSpace(txtTitle.Text)) { MessageBox.Show("Please enter a title."); return; }
 
-                // Add to dynamic activity feed
-                AddActivityCard($"Just posted: '{txtTitle.Text}' scheduled for {dtpDate.Value.ToShortDateString()}");
+                using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BengaluruCaresDB;Integrated Security=True"))
+                {
+                    con.Open();
+                    string query = "INSERT INTO Events (Title, EventDate, Description, NGO_Name) VALUES (@title, @date, @desc, @ngo)";
+                    SqlCommand cmd = new SqlCommand(query, con);
+                    cmd.Parameters.AddWithValue("@title", txtTitle.Text);
+                    cmd.Parameters.AddWithValue("@date", dtpDate.Value);
+                    cmd.Parameters.AddWithValue("@desc", txtDesc.Text);
+                    cmd.Parameters.AddWithValue("@ngo", lblNgoName.Text); // Links event to the logged-in NGO
+                    cmd.ExecuteNonQuery();
+                }
 
-                // Add to events grid
-                dgvEvents.Rows.Insert(0, "🟢 ACTIVE", txtTitle.Text, dtpDate.Value.ToShortDateString());
-
-                MessageBox.Show("Opportunity successfully published to volunteers!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtTitle.Clear(); txtDesc.Clear(); dtpDate.Value = DateTime.Now;
-                ShowPage(null);
+                MessageBox.Show("Opportunity successfully published to database!");
+                ShowPage(null); // Return to dashboard
             };
 
             card.Controls.AddRange(new Control[] { lblTitle, txtTitle, lblDate, dtpDate, lblDesc, txtDesc, btnPublish });
@@ -280,10 +339,6 @@ namespace BlrCares
             dgvEvents.Columns[0].Name = "Status"; dgvEvents.Columns[0].FillWeight = 20;
             dgvEvents.Columns[1].Name = "Event Title"; dgvEvents.Columns[1].FillWeight = 50;
             dgvEvents.Columns[2].Name = "Date"; dgvEvents.Columns[2].FillWeight = 30;
-
-            dgvEvents.Rows.Add("🟢 ACTIVE", "Tree Plantation MG", "12th Dec 2026");
-            dgvEvents.Rows.Add("🟢 ACTIVE", "Teaching Drive 2026", "Ongoing");
-            dgvEvents.Rows.Add("⚪ COMPLETED", "Cubbon Park Cleanup", "15th Nov 2025");
 
             Button btnDelete = new Button { Text = "✕ Cancel Selected Event", Location = new Point(20, card.Height - 80), Width = 280, Height = 50, BackColor = Color.White, ForeColor = Color.Tomato, FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 12, FontStyle.Bold), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
             btnDelete.FlatAppearance.BorderColor = Color.Tomato;
@@ -317,6 +372,28 @@ namespace BlrCares
             pnlVolunteers.Controls.Add(card);
         }
 
+        // Inside BuildReviewAppsPage() in NgoDashboard.cs
+        private void LoadApplicants()
+        {
+            dgvApps.Rows.Clear();
+            using (SqlConnection con = new SqlConnection(@"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=BengaluruCaresDB;Integrated Security=True"))
+            {
+                con.Open();
+                // Fetch users who applied (status 'Upcoming') for events belonging to this NGO
+                string query = "SELECT VolunteerName, EventName, DateWorked FROM VolunteerLog WHERE ReceiptStatus = 'Upcoming'";
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    dgvApps.Rows.Add(
+                        Convert.ToDateTime(reader["DateWorked"]).ToShortDateString(),
+                        reader["VolunteerName"].ToString(),
+                        reader["EventName"].ToString()
+                    );
+                }
+            }
+        }   
+
         private void BuildReviewAppsPage()
         {
             pnlReviewApps = CreateBasePanel("Review Applications");
@@ -329,9 +406,7 @@ namespace BlrCares
             dgvApps.Columns[1].Name = "Applicant Name"; dgvApps.Columns[1].FillWeight = 40;
             dgvApps.Columns[2].Name = "Target Event"; dgvApps.Columns[2].FillWeight = 40;
 
-            dgvApps.Rows.Add("Today", "John Doe", "Tree Plantation MG");
-            dgvApps.Rows.Add("Yesterday", "Sarah Lee", "Teaching Drive 2026");
-            dgvApps.Rows.Add("2 Days Ago", "Karan M", "Teaching Drive 2026");
+            LoadApplicants();
 
             Button btnApprove = new Button { Text = "✓ Approve Selected", Location = new Point(20, card.Height - 80), Width = 250, Height = 50, BackColor = ngoGreen, ForeColor = Color.White, FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 12, FontStyle.Bold), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
             Button btnReject = new Button { Text = "✕ Reject Selected", Location = new Point(290, card.Height - 80), Width = 250, Height = 50, BackColor = Color.White, ForeColor = Color.Tomato, FlatStyle = FlatStyle.Flat, Font = new Font("Segoe UI", 12, FontStyle.Bold), Anchor = AnchorStyles.Bottom | AnchorStyles.Left };
@@ -393,7 +468,7 @@ namespace BlrCares
         }
 
         private void btnDashboardNav_Click(object sender, EventArgs e) => ShowPage(null);
-        private void btnManageEvents_Click(object sender, EventArgs e) => ShowPage(pnlManageEvents);
+
         private void btnVolunteers_Click(object sender, EventArgs e) => ShowPage(pnlVolunteers);
         private void btnSettings_Click(object sender, EventArgs e) => ShowPage(pnlSettings);
         private void btnPostOpp_Click(object sender, EventArgs e) => ShowPage(pnlPostOpp);

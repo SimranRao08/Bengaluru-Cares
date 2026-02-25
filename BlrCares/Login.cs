@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
-using Microsoft.Data.SqlClient; // Required for SQL
+using Microsoft.Data.SqlClient;
 using BengaluruCares;
 
 namespace BlrCares
 {
     public partial class Login : Form
     {
-        private string connString = AppSecrets.ConnString; //
+        // Uses the centralized connection string from AppSecrets
+        private string connString = AppSecrets.ConnString;
         private string currentOTP;
-        private EmailService emailService = new EmailService(); //
+        private EmailService emailService = new EmailService();
 
         public Login()
         {
@@ -33,7 +34,7 @@ namespace BlrCares
                 {
                     await con.OpenAsync();
 
-                    // Check if we are in "Reset Mode"
+                    // --- RESET PASSWORD MODE ---
                     if (btnLogin.Text == "Update & Login")
                     {
                         string encryptedPass = SecurityHelper.Encrypt(password);
@@ -43,30 +44,44 @@ namespace BlrCares
                         {
                             updateCmd.Parameters.AddWithValue("@pass", encryptedPass);
                             updateCmd.Parameters.AddWithValue("@email", email);
-                            await updateCmd.ExecuteScalarAsync();
+                            await updateCmd.ExecuteNonQueryAsync();
                         }
                         MessageBox.Show("Password updated successfully!", "Success");
                     }
 
-                    // Standard Login Verification
-                    string query = "SELECT PasswordHash FROM Users WHERE Email = @email";
+                    // --- STANDARD LOGIN VERIFICATION ---
+                    // Retrieve Name and PasswordHash for Session initialization
+                    string query = "SELECT Username, PasswordHash FROM Users WHERE Email = @email";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@email", email);
-                        object result = await cmd.ExecuteScalarAsync();
-
-                        if (result != null)
+                        using (SqlDataReader reader = await cmd.ExecuteReaderAsync())
                         {
-                            string decryptedPassword = SecurityHelper.Decrypt(result.ToString());
-
-                            if (password == decryptedPassword)
+                            if (reader.Read())
                             {
-                                new Dashboard().Show();
-                                this.Hide();
+                                string storedHash = reader["PasswordHash"].ToString();
+                                string decryptedPassword = SecurityHelper.Decrypt(storedHash);
+
+                                if (password == decryptedPassword)
+                                {
+                                    // Initialize Global Session
+                                    Session.UserEmail = email;
+                                    Session.UserName = reader["Username"].ToString();
+                                    Session.UserRole = "Volunteer";
+
+                                    MessageBox.Show($"Welcome back, {Session.UserName}!", "Login Successful");
+
+                                    new Dashboard().Show();
+                                    this.Hide();
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Invalid password.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                }
                             }
                             else
                             {
-                                MessageBox.Show("Invalid password.");
+                                MessageBox.Show("No account found with this email.", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             }
                         }
                     }
@@ -90,10 +105,7 @@ namespace BlrCares
 
             try
             {
-                // 1. Generate a real OTP using EmailService
                 currentOTP = emailService.GenerateOTP();
-
-                // 2. Send the actual email asynchronously
                 await emailService.SendOtpAsync(receiverEmail, currentOTP);
 
                 MessageBox.Show($"A verification OTP has been sent to {receiverEmail}.", "OTP Sent");
@@ -109,16 +121,13 @@ namespace BlrCares
 
         private void btnVerifyOTP_Click(object sender, EventArgs e)
         {
-            // Verify if the entered OTP matches the one sent
             if (txtOTP.Text == currentOTP)
             {
-                MessageBox.Show("OTP Verified! You may now enter a new password and login.", "Security Cleared");
+                MessageBox.Show("OTP Verified! You may now enter a new password and click 'Update & Login'.", "Security Cleared");
 
                 pnlOTP.Visible = false;
-                txtPass.Text = ""; // Clear password field for new entry
+                txtPass.Clear();
                 txtPass.Focus();
-
-                // Change Login button text to indicate the next click updates the account
                 btnLogin.Text = "Update & Login";
             }
             else

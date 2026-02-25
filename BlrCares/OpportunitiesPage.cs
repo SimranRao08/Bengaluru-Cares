@@ -14,14 +14,33 @@ namespace BlrCares
             InitializeComponent();
         }
 
+        // Inside OpportunitiesPage.cs
         private void OpportunitiesPage_Load(object sender, EventArgs e)
         {
-            // Dummy Data
-            CreateCard("Lake Cleanup", "Ulsoor Lake", "28 Jan 2026", 4, "Help us remove plastic waste.");
-            CreateCard("Math Tutoring", "Govt School", "05 Feb 2026", 3, "Basic algebra tutoring.");
-            CreateCard("Animal Shelter", "CUPA Shelter", "10 Feb 2026", 6, "Walking dogs and cleaning.");
-
+            LoadEventsFromDatabase();
             LoadAppliedEvents();
+        }
+
+        private void LoadEventsFromDatabase()
+        {
+            flowPanel.Controls.Clear(); // Clear existing cards
+            using (SqlConnection con = new SqlConnection(connString))
+            {
+                con.Open();
+                string query = "SELECT Title, EventDate, Description FROM Events WHERE Status = 'ACTIVE'";
+                SqlCommand cmd = new SqlCommand(query, con);
+                SqlDataReader reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    CreateCard(
+                        reader["Title"].ToString(),
+                        "Bengaluru", // Location could be added to table later
+                        Convert.ToDateTime(reader["EventDate"]).ToShortDateString(),
+                        0,
+                        reader["Description"].ToString()
+                    );
+                }
+            }
         }
 
         private void LoadAppliedEvents()

@@ -19,6 +19,7 @@ namespace BlrCares
             Signup signupForm = new Signup();
             signupForm.Show();
 
+            this.Hide();
         }
 
         private void btnNGO_Click(object sender, EventArgs e)

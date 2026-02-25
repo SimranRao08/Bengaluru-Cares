@@ -141,13 +141,15 @@ namespace BlrCares
                 catch (Exception ex) { MessageBox.Show("System Error: " + ex.Message); }
             }
         }
+        // Inside OpenDashboard() in NGOlogin.cs
         private void OpenDashboard()
         {
+            // Set the session email from the login textbox before showing the dashboard
+            Session.UserEmail = txtEmail.Text.Trim();
             NgoDashboard dash = new NgoDashboard();
             dash.Show();
             this.Hide();
         }
-
         // --- NAVIGATION & UTILITIES ---
         private void lblGotoSignup_Click(object sender, EventArgs e)
         {

@@ -77,6 +77,13 @@ namespace BengaluruCares
             }
             catch (Exception ex) { MessageBox.Show(ex.Message); }
         }
+
+        private void lblClose_Click(object sender, EventArgs e)
+        {
+            new landing().Show();
+
+            this.Close();
+        }
         // Navigation logic remains the same
     }
 }

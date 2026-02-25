@@ -1,4 +1,5 @@
 ﻿using BengaluruCares;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -77,6 +78,26 @@ namespace BlrCares
         {
 
         }
+
+        // SettingsPage.cs
+        //private void LoadUserProfile()
+        //{
+        //    using (SqlConnection con = new SqlConnection(AppSecrets.ConnString))
+        //    {
+        //        con.Open();
+        //        string query = "SELECT Username, Mobile, PinCode FROM Users WHERE Email = @email";
+        //        SqlCommand cmd = new SqlCommand(query, con);
+        //        cmd.Parameters.AddWithValue("@email", Session.UserEmail);
+
+        //        SqlDataReader reader = cmd.ExecuteReader();
+        //        if (reader.Read())
+        //        {
+        //            txtUsername.Text = reader["Username"].ToString();
+        //            txtMobile.Text = reader["Mobile"].ToString();
+        //            txtPin.Text = reader["PinCode"].ToString();
+        //        }
+        //    }
+        //}
 
         private void btnBack_Click_1(object sender, EventArgs e)
         {

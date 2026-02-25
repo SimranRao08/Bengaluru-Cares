@@ -17,280 +17,300 @@
 
         private void InitializeComponent()
         {
-            this.panelLeft = new System.Windows.Forms.Panel();
-            this.lblTagline = new System.Windows.Forms.Label();
-            this.lblLogo = new System.Windows.Forms.Label();
-            this.panelRight = new System.Windows.Forms.Panel();
-            this.btnFingerprint = new System.Windows.Forms.Button();
-            this.lblGotoLogin = new System.Windows.Forms.Label();
-            this.lblClose = new System.Windows.Forms.Label();
-            this.btnSignup = new System.Windows.Forms.Button();
-            this.lblError = new System.Windows.Forms.Label();
-            this.txtPhone = new System.Windows.Forms.TextBox();
-            this.lblPhone = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.lblEmail = new System.Windows.Forms.Label();
-            this.txtPass = new System.Windows.Forms.TextBox();
-            this.lblPass = new System.Windows.Forms.Label();
-            this.txtRegNo = new System.Windows.Forms.TextBox();
-            this.lblRegNo = new System.Windows.Forms.Label();
-            this.txtNGOName = new System.Windows.Forms.TextBox();
-            this.lblNGOName = new System.Windows.Forms.Label();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.panelLeft.SuspendLayout();
-            this.panelRight.SuspendLayout();
-            this.SuspendLayout();
+            panelLeft = new Panel();
+            lblTagline = new Label();
+            lblLogo = new Label();
+            panelRight = new Panel();
+            btnFingerprint = new Button();
+            lblGotoLogin = new Label();
+            lblClose = new Label();
+            btnSignup = new Button();
+            lblError = new Label();
+            txtPhone = new TextBox();
+            lblPhone = new Label();
+            txtEmail = new TextBox();
+            lblEmail = new Label();
+            txtPass = new TextBox();
+            lblPass = new Label();
+            txtRegNo = new TextBox();
+            lblRegNo = new Label();
+            txtNGOName = new TextBox();
+            lblNGOName = new Label();
+            lblTitle = new Label();
+            panelLeft.SuspendLayout();
+            panelRight.SuspendLayout();
+            SuspendLayout();
             // 
             // panelLeft
             // 
-            this.panelLeft.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(92)))), ((int)(((byte)(83)))));
-            this.panelLeft.Controls.Add(this.lblTagline);
-            this.panelLeft.Controls.Add(this.lblLogo);
-            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeft.Location = new System.Drawing.Point(0, 0);
-            this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(400, 650);
-            this.panelLeft.TabIndex = 0;
+            panelLeft.BackColor = Color.FromArgb(0, 92, 83);
+            panelLeft.Controls.Add(lblTagline);
+            panelLeft.Controls.Add(lblLogo);
+            panelLeft.Dock = DockStyle.Left;
+            panelLeft.Location = new Point(0, 0);
+            panelLeft.Margin = new Padding(5, 6, 5, 6);
+            panelLeft.Name = "panelLeft";
+            panelLeft.Size = new Size(667, 1106);
+            panelLeft.TabIndex = 0;
             // 
             // lblTagline
             // 
-            this.lblTagline.AutoSize = true;
-            this.lblTagline.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTagline.ForeColor = System.Drawing.Color.LightGray;
-            this.lblTagline.Location = new System.Drawing.Point(50, 310);
-            this.lblTagline.Name = "lblTagline";
-            this.lblTagline.Size = new System.Drawing.Size(262, 42);
-            this.lblTagline.TabIndex = 1;
-            this.lblTagline.Text = "Empower your mission.\r\nConnect with dedicated volunteers.";
+            lblTagline.AutoSize = true;
+            lblTagline.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblTagline.ForeColor = Color.LightGray;
+            lblTagline.Location = new Point(83, 596);
+            lblTagline.Margin = new Padding(5, 0, 5, 0);
+            lblTagline.Name = "lblTagline";
+            lblTagline.Size = new Size(391, 64);
+            lblTagline.TabIndex = 1;
+            lblTagline.Text = "Empower your mission.\r\nConnect with dedicated volunteers.";
             // 
             // lblLogo
             // 
-            this.lblLogo.AutoSize = true;
-            this.lblLogo.Font = new System.Drawing.Font("Segoe UI", 28F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblLogo.ForeColor = System.Drawing.Color.White;
-            this.lblLogo.Location = new System.Drawing.Point(40, 200);
-            this.lblLogo.Name = "lblLogo";
-            this.lblLogo.Size = new System.Drawing.Size(201, 102);
-            this.lblLogo.TabIndex = 0;
-            this.lblLogo.Text = "Bengaluru\r\nCares";
+            lblLogo.AutoSize = true;
+            lblLogo.Font = new Font("Segoe UI", 28F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblLogo.ForeColor = Color.White;
+            lblLogo.Location = new Point(67, 385);
+            lblLogo.Margin = new Padding(5, 0, 5, 0);
+            lblLogo.Name = "lblLogo";
+            lblLogo.Size = new Size(303, 148);
+            lblLogo.TabIndex = 0;
+            lblLogo.Text = "Bengaluru\r\nCares";
             // 
             // panelRight
             // 
-            this.panelRight.BackColor = System.Drawing.Color.White;
-            this.panelRight.Controls.Add(this.btnFingerprint);
-            this.panelRight.Controls.Add(this.lblGotoLogin);
-            this.panelRight.Controls.Add(this.lblClose);
-            this.panelRight.Controls.Add(this.btnSignup);
-            this.panelRight.Controls.Add(this.lblError);
-            this.panelRight.Controls.Add(this.txtPhone);
-            this.panelRight.Controls.Add(this.lblPhone);
-            this.panelRight.Controls.Add(this.txtEmail);
-            this.panelRight.Controls.Add(this.lblEmail);
-            this.panelRight.Controls.Add(this.txtPass);
-            this.panelRight.Controls.Add(this.lblPass);
-            this.panelRight.Controls.Add(this.txtRegNo);
-            this.panelRight.Controls.Add(this.lblRegNo);
-            this.panelRight.Controls.Add(this.txtNGOName);
-            this.panelRight.Controls.Add(this.lblNGOName);
-            this.panelRight.Controls.Add(this.lblTitle);
-            this.panelRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelRight.Location = new System.Drawing.Point(400, 0);
-            this.panelRight.Name = "panelRight";
-            this.panelRight.Size = new System.Drawing.Size(500, 650);
-            this.panelRight.TabIndex = 1;
+            panelRight.BackColor = Color.White;
+            panelRight.Controls.Add(btnFingerprint);
+            panelRight.Controls.Add(lblGotoLogin);
+            panelRight.Controls.Add(lblClose);
+            panelRight.Controls.Add(btnSignup);
+            panelRight.Controls.Add(lblError);
+            panelRight.Controls.Add(txtPhone);
+            panelRight.Controls.Add(lblPhone);
+            panelRight.Controls.Add(txtEmail);
+            panelRight.Controls.Add(lblEmail);
+            panelRight.Controls.Add(txtPass);
+            panelRight.Controls.Add(lblPass);
+            panelRight.Controls.Add(txtRegNo);
+            panelRight.Controls.Add(lblRegNo);
+            panelRight.Controls.Add(txtNGOName);
+            panelRight.Controls.Add(lblNGOName);
+            panelRight.Controls.Add(lblTitle);
+            panelRight.Dock = DockStyle.Fill;
+            panelRight.Location = new Point(667, 0);
+            panelRight.Margin = new Padding(5, 6, 5, 6);
+            panelRight.Name = "panelRight";
+            panelRight.Size = new Size(833, 1106);
+            panelRight.TabIndex = 1;
             // 
             // btnFingerprint
             // 
-            this.btnFingerprint.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
-            this.btnFingerprint.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnFingerprint.FlatAppearance.BorderSize = 0;
-            this.btnFingerprint.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnFingerprint.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnFingerprint.ForeColor = System.Drawing.Color.White;
-            this.btnFingerprint.Location = new System.Drawing.Point(50, 520);
-            this.btnFingerprint.Name = "btnFingerprint";
-            this.btnFingerprint.Size = new System.Drawing.Size(400, 45);
-            this.btnFingerprint.TabIndex = 17;
-            this.btnFingerprint.Text = "🖙 SCAN FINGERPRINT";
-            this.btnFingerprint.UseVisualStyleBackColor = false;
-            this.btnFingerprint.Click += new System.EventHandler(this.btnFingerprint_Click);
+            btnFingerprint.BackColor = Color.FromArgb(44, 62, 80);
+            btnFingerprint.Cursor = Cursors.Hand;
+            btnFingerprint.FlatAppearance.BorderSize = 0;
+            btnFingerprint.FlatStyle = FlatStyle.Flat;
+            btnFingerprint.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnFingerprint.ForeColor = Color.White;
+            btnFingerprint.Location = new Point(83, 1000);
+            btnFingerprint.Margin = new Padding(5, 6, 5, 6);
+            btnFingerprint.Name = "btnFingerprint";
+            btnFingerprint.Size = new Size(667, 87);
+            btnFingerprint.TabIndex = 17;
+            btnFingerprint.Text = "🖙 SCAN FINGERPRINT";
+            btnFingerprint.UseVisualStyleBackColor = false;
+            btnFingerprint.Click += btnFingerprint_Click;
             // 
             // lblGotoLogin
             // 
-            this.lblGotoLogin.AutoSize = true;
-            this.lblGotoLogin.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblGotoLogin.Font = new System.Drawing.Font("Segoe UI", 10F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGotoLogin.ForeColor = System.Drawing.Color.Gray;
-            this.lblGotoLogin.Location = new System.Drawing.Point(145, 590);
-            this.lblGotoLogin.Name = "lblGotoLogin";
-            this.lblGotoLogin.Size = new System.Drawing.Size(215, 19);
-            this.lblGotoLogin.TabIndex = 16;
-            this.lblGotoLogin.Text = "Already have an account? Log in";
-            //this.lblGotoLogin.Click += new System.EventHandler(this.lblGotoLogin_Click);
+            lblGotoLogin.AutoSize = true;
+            lblGotoLogin.Cursor = Cursors.Hand;
+            lblGotoLogin.Font = new Font("Segoe UI", 10F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point, 0);
+            lblGotoLogin.ForeColor = Color.Gray;
+            lblGotoLogin.Location = new Point(242, 1135);
+            lblGotoLogin.Margin = new Padding(5, 0, 5, 0);
+            lblGotoLogin.Name = "lblGotoLogin";
+            lblGotoLogin.Size = new Size(318, 28);
+            lblGotoLogin.TabIndex = 16;
+            lblGotoLogin.Text = "Already have an account? Log in";
             // 
             // lblClose
             // 
-            this.lblClose.AutoSize = true;
-            this.lblClose.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.lblClose.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblClose.ForeColor = System.Drawing.Color.Silver;
-            this.lblClose.Location = new System.Drawing.Point(450, 15);
-            this.lblClose.Name = "lblClose";
-            this.lblClose.Size = new System.Drawing.Size(27, 30);
-            this.lblClose.TabIndex = 15;
-            this.lblClose.Text = "X";
-            //this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
+            lblClose.AutoSize = true;
+            lblClose.Cursor = Cursors.Hand;
+            lblClose.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblClose.ForeColor = Color.Silver;
+            lblClose.Location = new Point(750, 29);
+            lblClose.Margin = new Padding(5, 0, 5, 0);
+            lblClose.Name = "lblClose";
+            lblClose.Size = new Size(41, 45);
+            lblClose.TabIndex = 15;
+            lblClose.Text = "X";
+            lblClose.Click += lblClose_Click;
             // 
             // btnSignup
             // 
-            this.btnSignup.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(26)))), ((int)(((byte)(188)))), ((int)(((byte)(156)))));
-            this.btnSignup.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.btnSignup.FlatAppearance.BorderSize = 0;
-            this.btnSignup.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnSignup.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSignup.ForeColor = System.Drawing.Color.White;
-            this.btnSignup.Location = new System.Drawing.Point(50, 460);
-            this.btnSignup.Name = "btnSignup";
-            this.btnSignup.Size = new System.Drawing.Size(400, 50);
-            this.btnSignup.TabIndex = 12;
-            this.btnSignup.Text = "VALIDATE DETAILS";
-            this.btnSignup.UseVisualStyleBackColor = false;
-            this.btnSignup.Click += new System.EventHandler(this.btnSignup_Click);
+            btnSignup.BackColor = Color.FromArgb(26, 188, 156);
+            btnSignup.Cursor = Cursors.Hand;
+            btnSignup.FlatAppearance.BorderSize = 0;
+            btnSignup.FlatStyle = FlatStyle.Flat;
+            btnSignup.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnSignup.ForeColor = Color.White;
+            btnSignup.Location = new Point(83, 885);
+            btnSignup.Margin = new Padding(5, 6, 5, 6);
+            btnSignup.Name = "btnSignup";
+            btnSignup.Size = new Size(667, 96);
+            btnSignup.TabIndex = 12;
+            btnSignup.Text = "VALIDATE DETAILS";
+            btnSignup.UseVisualStyleBackColor = false;
+            btnSignup.Click += btnSignup_Click;
             // 
             // lblError
             // 
-            this.lblError.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblError.ForeColor = System.Drawing.Color.IndianRed;
-            this.lblError.Location = new System.Drawing.Point(50, 420);
-            this.lblError.Name = "lblError";
-            this.lblError.Size = new System.Drawing.Size(400, 32);
-            this.lblError.TabIndex = 11;
-            this.lblError.Text = "Error Message Here";
-            this.lblError.Visible = false;
+            lblError.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblError.ForeColor = Color.IndianRed;
+            lblError.Location = new Point(83, 808);
+            lblError.Margin = new Padding(5, 0, 5, 0);
+            lblError.Name = "lblError";
+            lblError.Size = new Size(667, 62);
+            lblError.TabIndex = 11;
+            lblError.Text = "Error Message Here";
+            lblError.Visible = false;
             // 
             // txtPhone
             // 
-            this.txtPhone.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPhone.Location = new System.Drawing.Point(50, 320);
-            this.txtPhone.Name = "txtPhone";
-            this.txtPhone.Size = new System.Drawing.Size(400, 27);
-            this.txtPhone.TabIndex = 8;
+            txtPhone.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPhone.Location = new Point(83, 615);
+            txtPhone.Margin = new Padding(5, 6, 5, 6);
+            txtPhone.Name = "txtPhone";
+            txtPhone.Size = new Size(664, 37);
+            txtPhone.TabIndex = 8;
             // 
             // lblPhone
             // 
-            this.lblPhone.AutoSize = true;
-            this.lblPhone.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPhone.ForeColor = System.Drawing.Color.Gray;
-            this.lblPhone.Location = new System.Drawing.Point(50, 300);
-            this.lblPhone.Name = "lblPhone";
-            this.lblPhone.Size = new System.Drawing.Size(100, 15);
-            this.lblPhone.TabIndex = 7;
-            this.lblPhone.Text = "Contact Number";
+            lblPhone.AutoSize = true;
+            lblPhone.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPhone.ForeColor = Color.Gray;
+            lblPhone.Location = new Point(83, 577);
+            lblPhone.Margin = new Padding(5, 0, 5, 0);
+            lblPhone.Name = "lblPhone";
+            lblPhone.Size = new Size(152, 25);
+            lblPhone.TabIndex = 7;
+            lblPhone.Text = "Contact Number";
             // 
             // txtEmail
             // 
-            this.txtEmail.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEmail.Location = new System.Drawing.Point(50, 260);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(400, 27);
-            this.txtEmail.TabIndex = 6;
+            txtEmail.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtEmail.Location = new Point(83, 500);
+            txtEmail.Margin = new Padding(5, 6, 5, 6);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(664, 37);
+            txtEmail.TabIndex = 6;
             // 
             // lblEmail
             // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblEmail.ForeColor = System.Drawing.Color.Gray;
-            this.lblEmail.Location = new System.Drawing.Point(50, 240);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(89, 15);
-            this.lblEmail.TabIndex = 5;
-            this.lblEmail.Text = "Official Email";
+            lblEmail.AutoSize = true;
+            lblEmail.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblEmail.ForeColor = Color.Gray;
+            lblEmail.Location = new Point(83, 462);
+            lblEmail.Margin = new Padding(5, 0, 5, 0);
+            lblEmail.Name = "lblEmail";
+            lblEmail.Size = new Size(125, 25);
+            lblEmail.TabIndex = 5;
+            lblEmail.Text = "Official Email";
             // 
             // txtPass
             // 
-            this.txtPass.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPass.Location = new System.Drawing.Point(50, 380);
-            this.txtPass.Name = "txtPass";
-            this.txtPass.PasswordChar = '•';
-            this.txtPass.Size = new System.Drawing.Size(400, 27);
-            this.txtPass.TabIndex = 10;
+            txtPass.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPass.Location = new Point(83, 731);
+            txtPass.Margin = new Padding(5, 6, 5, 6);
+            txtPass.Name = "txtPass";
+            txtPass.PasswordChar = '•';
+            txtPass.Size = new Size(664, 37);
+            txtPass.TabIndex = 10;
             // 
             // lblPass
             // 
-            this.lblPass.AutoSize = true;
-            this.lblPass.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblPass.ForeColor = System.Drawing.Color.Gray;
-            this.lblPass.Location = new System.Drawing.Point(50, 360);
-            this.lblPass.Name = "lblPass";
-            this.lblPass.Size = new System.Drawing.Size(59, 15);
-            this.lblPass.TabIndex = 9;
-            this.lblPass.Text = "Password";
+            lblPass.AutoSize = true;
+            lblPass.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblPass.ForeColor = Color.Gray;
+            lblPass.Location = new Point(83, 692);
+            lblPass.Margin = new Padding(5, 0, 5, 0);
+            lblPass.Name = "lblPass";
+            lblPass.Size = new Size(92, 25);
+            lblPass.TabIndex = 9;
+            lblPass.Text = "Password";
             // 
             // txtRegNo
             // 
-            this.txtRegNo.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtRegNo.Location = new System.Drawing.Point(50, 200);
-            this.txtRegNo.Name = "txtRegNo";
-            this.txtRegNo.Size = new System.Drawing.Size(400, 27);
-            this.txtRegNo.TabIndex = 4;
+            txtRegNo.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtRegNo.Location = new Point(83, 385);
+            txtRegNo.Margin = new Padding(5, 6, 5, 6);
+            txtRegNo.Name = "txtRegNo";
+            txtRegNo.Size = new Size(664, 37);
+            txtRegNo.TabIndex = 4;
             // 
             // lblRegNo
             // 
-            this.lblRegNo.AutoSize = true;
-            this.lblRegNo.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblRegNo.ForeColor = System.Drawing.Color.Gray;
-            this.lblRegNo.Location = new System.Drawing.Point(50, 180);
-            this.lblRegNo.Name = "lblRegNo";
-            this.lblRegNo.Size = new System.Drawing.Size(124, 15);
-            this.lblRegNo.TabIndex = 3;
-            this.lblRegNo.Text = "NGO Registration No.";
+            lblRegNo.AutoSize = true;
+            lblRegNo.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblRegNo.ForeColor = Color.Gray;
+            lblRegNo.Location = new Point(83, 346);
+            lblRegNo.Margin = new Padding(5, 0, 5, 0);
+            lblRegNo.Name = "lblRegNo";
+            lblRegNo.Size = new Size(197, 25);
+            lblRegNo.TabIndex = 3;
+            lblRegNo.Text = "NGO Registration No.";
             // 
             // txtNGOName
             // 
-            this.txtNGOName.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtNGOName.Location = new System.Drawing.Point(50, 140);
-            this.txtNGOName.Name = "txtNGOName";
-            this.txtNGOName.Size = new System.Drawing.Size(400, 27);
-            this.txtNGOName.TabIndex = 2;
+            txtNGOName.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtNGOName.Location = new Point(83, 269);
+            txtNGOName.Margin = new Padding(5, 6, 5, 6);
+            txtNGOName.Name = "txtNGOName";
+            txtNGOName.Size = new Size(664, 37);
+            txtNGOName.TabIndex = 2;
             // 
             // lblNGOName
             // 
-            this.lblNGOName.AutoSize = true;
-            this.lblNGOName.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblNGOName.ForeColor = System.Drawing.Color.Gray;
-            this.lblNGOName.Location = new System.Drawing.Point(50, 120);
-            this.lblNGOName.Name = "lblNGOName";
-            this.lblNGOName.Size = new System.Drawing.Size(113, 15);
-            this.lblNGOName.TabIndex = 1;
-            this.lblNGOName.Text = "Organization Name";
+            lblNGOName.AutoSize = true;
+            lblNGOName.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblNGOName.ForeColor = Color.Gray;
+            lblNGOName.Location = new Point(83, 231);
+            lblNGOName.Margin = new Padding(5, 0, 5, 0);
+            lblNGOName.Name = "lblNGOName";
+            lblNGOName.Size = new Size(178, 25);
+            lblNGOName.TabIndex = 1;
+            lblNGOName.Text = "Organization Name";
             // 
             // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 22F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(62)))), ((int)(((byte)(80)))));
-            this.lblTitle.Location = new System.Drawing.Point(40, 50);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(315, 41);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "NGO Partner Sign Up";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Segoe UI", 22F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.FromArgb(44, 62, 80);
+            lblTitle.Location = new Point(67, 96);
+            lblTitle.Margin = new Padding(5, 0, 5, 0);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(466, 60);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "NGO Partner Sign Up";
             // 
             // NGOSignup
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(900, 650);
-            this.Controls.Add(this.panelRight);
-            this.Controls.Add(this.panelLeft);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "NGOSignup";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "NGO Signup";
-            this.panelLeft.ResumeLayout(false);
-            this.panelLeft.PerformLayout();
-            this.panelRight.ResumeLayout(false);
-            this.panelRight.PerformLayout();
-            this.ResumeLayout(false);
+            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1500, 1106);
+            Controls.Add(panelRight);
+            Controls.Add(panelLeft);
+            FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(5, 6, 5, 6);
+            Name = "NGOSignup";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "NGO Signup";
+            panelLeft.ResumeLayout(false);
+            panelLeft.PerformLayout();
+            panelRight.ResumeLayout(false);
+            panelRight.PerformLayout();
+            ResumeLayout(false);
 
         }
 

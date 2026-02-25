@@ -134,7 +134,7 @@
             this.btnManageEvents.Text = "Manage Events";
             this.btnManageEvents.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnManageEvents.UseVisualStyleBackColor = true;
-            this.btnManageEvents.Click += new System.EventHandler(this.btnManageEvents_Click);
+            //this.btnManageEvents.Click += new System.EventHandler(this.btnManageEvents_Click);
             // 
             // btnDashboardNav
             // 
