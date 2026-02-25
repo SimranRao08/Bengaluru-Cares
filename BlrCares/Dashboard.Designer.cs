@@ -180,7 +180,7 @@
             // 
             lblUserRole.AutoSize = true;
             lblUserRole.Font = new Font("Segoe UI", 9F);
-            lblUserRole.ForeColor = Color.Gray;
+            lblUserRole.ForeColor = Color.Silver;
             lblUserRole.Location = new Point(150, 125);
             lblUserRole.Margin = new Padding(5, 0, 5, 0);
             lblUserRole.Name = "lblUserRole";
@@ -199,14 +199,16 @@
             lblUserName.Size = new Size(85, 30);
             lblUserName.TabIndex = 1;
             lblUserName.Text = "Simran";
+            lblUserName.Click += lblUserName_Click;
             // 
             // picProfile
             // 
-            picProfile.BackColor = Color.Gray;
+            picProfile.BackColor = Color.FromArgb(60, 70, 80);
             picProfile.Location = new Point(33, 67);
             picProfile.Margin = new Padding(5, 6, 5, 6);
             picProfile.Name = "picProfile";
-            picProfile.Size = new Size(100, 115);
+            picProfile.Size = new Size(100, 100);  // MUST be square
+            picProfile.SizeMode = PictureBoxSizeMode.StretchImage;
             picProfile.TabIndex = 0;
             picProfile.TabStop = false;
             // 

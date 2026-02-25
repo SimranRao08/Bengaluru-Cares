@@ -23,13 +23,20 @@ namespace BlrCares
 
         private void btnNGO_Click(object sender, EventArgs e)
         {
-            // TODO: Open the NGO Registration Form
+            NGOSignup signup = new NGOSignup();
+            signup.Show();
+
+            this.Hide();
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
             // TODO: Open the General Login Form
             MessageBox.Show("Redirecting to Login Page...", "Navigate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            NGOlogin lgn = new NGOlogin();
+            lgn.Show();
+
+            this.Hide();
         }
 
 

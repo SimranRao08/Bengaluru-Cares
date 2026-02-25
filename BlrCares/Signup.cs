@@ -1,12 +1,16 @@
-using System;
-using System.Text.RegularExpressions; 
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using BlrCares; // Needed to access the Dashboard form
+using Microsoft.Data.SqlClient; // Required for database connection
+using BlrCares;
 
 namespace BengaluruCares
 {
     public partial class Signup : Form
     {
+        // Uses the centralized connection string from AppSecrets.cs
+        string connString = AppSecrets.ConnString;
+
         public Signup()
         {
             InitializeComponent();
@@ -18,12 +22,13 @@ namespace BengaluruCares
             {
                 lblError.Visible = false;
 
-                string username = txtUser.Text;
-                string email = txtEmail.Text;
-                string mobile = txtMobile.Text;
-                string pin = txtPin.Text;
+                string username = txtUser.Text.Trim();
+                string email = txtEmail.Text.Trim();
+                string mobile = txtMobile.Text.Trim();
+                string pin = txtPin.Text.Trim();
                 string password = txtPass.Text;
 
+                // 1. Validation Logic
                 if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) ||
                     string.IsNullOrEmpty(mobile) || string.IsNullOrEmpty(pin) ||
                     string.IsNullOrEmpty(password))
@@ -31,68 +36,72 @@ namespace BengaluruCares
                     throw new ArgumentNullException("All fields are required.");
                 }
 
-                string userPattern = @"^[a-zA-Z0-9]+$";
-                if (!Regex.IsMatch(username, userPattern))
-                {
+                if (!Regex.IsMatch(username, @"^[a-zA-Z0-9]+$"))
                     throw new FormatException("Username must contain only alphabets and numbers.");
-                }
 
-                //Email ID 
-                string emailPattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
-                if (!Regex.IsMatch(email, emailPattern))
+                if (!Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+                    throw new FormatException("Invalid Email format.");
+
+                if (!Regex.IsMatch(mobile, @"^\d{10}$"))
+                    throw new FormatException("Mobile number must be 10 digits.");
+
+                if (!Regex.IsMatch(pin, @"^\d{6}$"))
+                    throw new FormatException("PIN code must be 6 digits.");
+
+                if (!Regex.IsMatch(password, @"^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$"))
+                    throw new FormatException("Password must be 8+ chars with 1 digit and 1 special char.");
+
+                // 2. Encrypt Password using SecurityHelper.cs
+                string hashedPassword = SecurityHelper.Encrypt(password);
+
+                // 3. Database Insertion into the Users table
+                using (SqlConnection con = new SqlConnection(connString))
                 {
-                    throw new FormatException("Invalid Email format (e.g., user@example.com).");
+                    con.Open();
+
+                    // Check if username or email already exists
+                    string checkQuery = "SELECT COUNT(*) FROM Users WHERE Username=@user OR Email=@email";
+                    using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
+                    {
+                        checkCmd.Parameters.AddWithValue("@user", username);
+                        checkCmd.Parameters.AddWithValue("@email", email);
+                        int exists = (int)checkCmd.ExecuteScalar();
+                        if (exists > 0) throw new Exception("Username or Email already registered.");
+                    }
+
+                    // Insert new user
+                    string query = "INSERT INTO Users (Username, Email, Mobile, PinCode, PasswordHash) " +
+                                   "VALUES (@user, @email, @mobile, @pin, @pass)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@user", username);
+                        cmd.Parameters.AddWithValue("@email", email);
+                        cmd.Parameters.AddWithValue("@mobile", mobile);
+                        cmd.Parameters.AddWithValue("@pin", pin);
+                        cmd.Parameters.AddWithValue("@pass", hashedPassword);
+
+                        cmd.ExecuteNonQuery();
+                    }
                 }
 
-                string mobilePattern = @"^\d{10}$";
-                if (!Regex.IsMatch(mobile, mobilePattern))
-                {
-                    throw new FormatException("Mobile number must be exactly 10 digits.");
-                }
-
-                string pinPattern = @"^\d{6}$";
-                if (!Regex.IsMatch(pin, pinPattern))
-                {
-                    throw new FormatException("PIN code must be exactly 6 digits.");
-                }
-
-                string passPattern = @"^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$";
-                if (!Regex.IsMatch(password, passPattern))
-                {
-                    throw new FormatException("Password must be 8+ chars, with 1 digit and 1 special char.");
-                }
-
-                MessageBox.Show("Validation Successful! Account Created.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Account Created Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 Dashboard dash = new Dashboard();
                 dash.Show();
-
                 this.Hide();
-            }
-            catch (ArgumentNullException ex)
-            {
-                lblError.Text = "Error: " + ex.ParamName; 
-                lblError.Visible = true;
-            }
-            catch (FormatException ex)
-            {
-                lblError.Text = ex.Message;
-                lblError.Visible = true;
             }
             catch (Exception ex)
             {
-                lblError.Text = "Unexpected Error: " + ex.Message;
+                lblError.Text = "Error: " + ex.Message;
                 lblError.Visible = true;
             }
         }
 
-        // --- NEW FEATURE: Redirect to Login Page ---
         private void lblGotoLogin_Click(object sender, EventArgs e)
         {
-            Login loginPage = new Login();
-            loginPage.Show();
-            
-            this.Hide(); // Hides the Signup form
+            new Login().Show();
+            this.Hide();
         }
 
         private void lblClose_Click(object sender, EventArgs e)

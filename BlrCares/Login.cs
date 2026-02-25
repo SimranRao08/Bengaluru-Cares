@@ -1,73 +1,133 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
-using BengaluruCares; // Needed to access the Dashboard form
+using Microsoft.Data.SqlClient; // Required for SQL
+using BengaluruCares;
 
 namespace BlrCares
 {
     public partial class Login : Form
     {
+        private string connString = AppSecrets.ConnString; //
+        private string currentOTP;
+        private EmailService emailService = new EmailService(); //
+
         public Login()
         {
             InitializeComponent();
         }
 
-        // --- CORE LOGIN LOGIC ---
-        private void btnLogin_Click(object sender, EventArgs e)
+        private async void btnLogin_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtEmail.Text) || string.IsNullOrWhiteSpace(txtPass.Text))
+            string email = txtEmail.Text.Trim();
+            string password = txtPass.Text;
+
+            if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Please enter both Email and Password.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            // Mock Validation Success
-            MessageBox.Show("Login Successful! Welcome back.", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                using (SqlConnection con = new SqlConnection(connString))
+                {
+                    await con.OpenAsync();
 
-            // Redirect to the existing Dashboard
-            Dashboard dash = new Dashboard();
-            dash.Show();
-            this.Hide();
+                    // Check if we are in "Reset Mode"
+                    if (btnLogin.Text == "Update & Login")
+                    {
+                        string encryptedPass = SecurityHelper.Encrypt(password);
+                        string updateQuery = "UPDATE Users SET PasswordHash = @pass WHERE Email = @email";
+
+                        using (SqlCommand updateCmd = new SqlCommand(updateQuery, con))
+                        {
+                            updateCmd.Parameters.AddWithValue("@pass", encryptedPass);
+                            updateCmd.Parameters.AddWithValue("@email", email);
+                            await updateCmd.ExecuteScalarAsync();
+                        }
+                        MessageBox.Show("Password updated successfully!", "Success");
+                    }
+
+                    // Standard Login Verification
+                    string query = "SELECT PasswordHash FROM Users WHERE Email = @email";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@email", email);
+                        object result = await cmd.ExecuteScalarAsync();
+
+                        if (result != null)
+                        {
+                            string decryptedPassword = SecurityHelper.Decrypt(result.ToString());
+
+                            if (password == decryptedPassword)
+                            {
+                                new Dashboard().Show();
+                                this.Hide();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Invalid password.");
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
 
-        // --- FORGOT PASSWORD / OTP REVEAL LOGIC ---
-        private void lblForgotPass_Click(object sender, EventArgs e)
+        private async void lblForgotPass_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            string receiverEmail = txtEmail.Text.Trim();
+
+            if (string.IsNullOrEmpty(receiverEmail))
             {
-                MessageBox.Show("Please enter your registered email address first to receive an OTP.", "Email Required", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                txtEmail.Focus();
+                MessageBox.Show("Please enter your email first.", "Email Required");
                 return;
             }
 
-            // Simulate sending an email
-            MessageBox.Show($"A 4-digit OTP has been sent to {txtEmail.Text}.", "OTP Sent", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                // 1. Generate a real OTP using EmailService
+                currentOTP = emailService.GenerateOTP();
 
-            // Reveal the sleek OTP panel below the login button
-            pnlOTP.Visible = true;
-            txtOTP.Clear();
-            txtOTP.Focus();
+                // 2. Send the actual email asynchronously
+                await emailService.SendOtpAsync(receiverEmail, currentOTP);
+
+                MessageBox.Show($"A verification OTP has been sent to {receiverEmail}.", "OTP Sent");
+
+                pnlOTP.Visible = true;
+                txtOTP.Focus();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to send email: " + ex.Message, "SMTP Error");
+            }
         }
 
         private void btnVerifyOTP_Click(object sender, EventArgs e)
         {
-            // The TextBox restricts length to 4 via MaxLength in the Designer
-            if (txtOTP.Text.Length == 4)
+            // Verify if the entered OTP matches the one sent
+            if (txtOTP.Text == currentOTP)
             {
-                MessageBox.Show("OTP Verified successfully! You can now reset your password.", "Security Cleared", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("OTP Verified! You may now enter a new password and login.", "Security Cleared");
 
-                // Hide panel again after success
                 pnlOTP.Visible = false;
+                txtPass.Text = ""; // Clear password field for new entry
                 txtPass.Focus();
+
+                // Change Login button text to indicate the next click updates the account
+                btnLogin.Text = "Update & Login";
             }
             else
             {
-                MessageBox.Show("Invalid OTP. Please enter exactly 4 digits.", "Verification Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Invalid OTP. Please try again.", "Verification Failed");
                 txtOTP.Clear();
             }
         }
 
-        // --- CLOSE BUTTON ---
         private void lblClose_Click(object sender, EventArgs e)
         {
             Application.Exit();

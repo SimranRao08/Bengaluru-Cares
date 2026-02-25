@@ -126,7 +126,7 @@
             this.lblGotoLogin.Size = new System.Drawing.Size(215, 19);
             this.lblGotoLogin.TabIndex = 16;
             this.lblGotoLogin.Text = "Already have an account? Log in";
-            this.lblGotoLogin.Click += new System.EventHandler(this.lblGotoLogin_Click);
+            //this.lblGotoLogin.Click += new System.EventHandler(this.lblGotoLogin_Click);
             // 
             // lblClose
             // 
@@ -139,7 +139,7 @@
             this.lblClose.Size = new System.Drawing.Size(27, 30);
             this.lblClose.TabIndex = 15;
             this.lblClose.Text = "X";
-            this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
+            //this.lblClose.Click += new System.EventHandler(this.lblClose_Click);
             // 
             // btnSignup
             // 

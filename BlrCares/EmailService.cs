@@ -12,7 +12,7 @@ namespace BlrCares
 
         public string GenerateOTP()
         {
-            return new Random().Next(100000, 999999).ToString();
+            return new Random().Next(1000, 9999).ToString();
         }
 
         public async Task SendOtpAsync(string receiverEmail, string otp)

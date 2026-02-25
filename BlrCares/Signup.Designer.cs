@@ -38,7 +38,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.panelLeft.SuspendLayout();
             this.panelRight.SuspendLayout();
-//            this.SuspendLayout();
+            //            this.SuspendLayout();
             // 
             // panelLeft
             // 
