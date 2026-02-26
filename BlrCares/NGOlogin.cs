@@ -122,8 +122,9 @@ namespace BlrCares
                                     {
                                         // In a real SDK, you would use: Scanner.Verify(captured, storedTemplate)
                                         MessageBox.Show($"Fingerprint verified for {ngoName}!", "Access Granted");
-                                        new Dashboard().Show();
-                                        this.Hide();
+                                        //new NgoDashboard().Show();
+                                        //this.Hide();
+                                        OpenDashboard();
                                     }
                                     else
                                     {
